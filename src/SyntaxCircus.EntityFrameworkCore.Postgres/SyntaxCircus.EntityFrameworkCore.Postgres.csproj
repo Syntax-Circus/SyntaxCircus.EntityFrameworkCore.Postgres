@@ -6,9 +6,9 @@
     <PackageId>SyntaxCircus.EntityFrameworkCore.Postgres</PackageId>
     <Title>SyntaxCircus EF Core Postgres</Title>
     <Description>An auditable-entity base + TimeProvider-driven SaveChanges interceptor, a Postgres advisory-lock-guarded migrate-on-startup helper, and a snake_case migrations-history repository.</Description>
-    <Authors>SyntaxCircus</Authors>
-    <Company>SyntaxCircus</Company>
-    <Copyright>Copyright © SyntaxCircus</Copyright>
+    <Authors>Syntax Circus LLC</Authors>
+    <Company>Syntax Circus LLC</Company>
+    <Copyright>Copyright © Syntax Circus LLC</Copyright>
     <PackageTags>entityframeworkcore;postgres;npgsql;audit;migrations</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
