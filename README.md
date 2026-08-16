@@ -1,6 +1,7 @@
 # SyntaxCircus.EntityFrameworkCore.Postgres
 
 [![Build](https://github.com/Syntax-Circus/SyntaxCircus.EntityFrameworkCore.Postgres/actions/workflows/build.yml/badge.svg)](https://github.com/Syntax-Circus/SyntaxCircus.EntityFrameworkCore.Postgres/actions/workflows/build.yml)
+[![NuGet](https://img.shields.io/nuget/v/SyntaxCircus.EntityFrameworkCore.Postgres.svg)](https://www.nuget.org/packages/SyntaxCircus.EntityFrameworkCore.Postgres)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 
 An auditable-entity base with a `TimeProvider`-driven `SaveChanges` interceptor, a Postgres advisory-lock-guarded migrate-on-startup helper, and a snake_case migrations-history repository — for products on EF Core + Npgsql.
