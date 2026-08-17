@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <PackageId>SyntaxCircus.EntityFrameworkCore.Postgres</PackageId>
     <Title>SyntaxCircus EF Core Postgres</Title>
-    <Description>An auditable-entity base + TimeProvider-driven SaveChanges interceptor, a Postgres advisory-lock-guarded migrate-on-startup helper, and a snake_case migrations-history repository.</Description>
+    <Description>An auditable-entity base + TimeProvider-driven SaveChanges interceptor, a Postgres advisory-lock-guarded migrate-on-startup helper, a snake_case entity/column naming convention that leaves the migrations-history table untouched by default, and an opt-in snake_case migrations-history repository.</Description>
     <Authors>Syntax Circus LLC</Authors>
     <Company>Syntax Circus LLC</Company>
     <Copyright>Copyright © Syntax Circus LLC</Copyright>
