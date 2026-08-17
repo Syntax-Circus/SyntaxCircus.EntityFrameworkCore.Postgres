@@ -34,23 +34,25 @@ Takes a Postgres advisory lock before calling `Database.MigrateAsync()`, so mult
 
 ## Snake_case entity and column naming
 
-This package depends on [`EFCore.NamingConventions`](https://github.com/efcore/EFCore.NamingConventions), so its `UseSnakeCaseNamingConvention()` is available with no separate install:
+This package depends on [`EFCore.NamingConventions`](https://github.com/efcore/EFCore.NamingConventions) and wraps its `UseSnakeCaseNamingConvention()`:
 
 ```csharp
 optionsBuilder.UseNpgsql(connectionString)
-    .UseSnakeCaseNamingConvention(); // entity and column names become snake_case, e.g. CreatedAt -> created_at
+    .UseSyntaxCircusSnakeCaseNamingConvention(); // entity and column names become snake_case, e.g. CreatedAt -> created_at
 ```
 
-`EFCore.NamingConventions` also ships camelCase, lower_case, and other convention variants — see its own docs for the full list.
+Use `UseSyntaxCircusSnakeCaseNamingConvention()`, not the raw `UseSnakeCaseNamingConvention()` from EFCore.NamingConventions directly - a naming-convention plugin applies to *every* model built from the context's convention pipeline, including the internal model EF Core uses for its own `__EFMigrationsHistory` migrations-history table. Calling the raw method alone silently renames that framework-owned table's columns as an unadvertised side effect (confirmed: it isn't a consumer-owned entity, so this is unintended - see `docs/enhancements/2026-08-17-missing-snake-case-naming-convention.md`). `UseSyntaxCircusSnakeCaseNamingConvention()` snake-cases your own entities the same way, while automatically keeping the migrations-history table in its EF Core framework-default naming (`__EFMigrationsHistory` / `MigrationId` / `ProductVersion`) unless you opt into renaming it too (below).
+
+`EFCore.NamingConventions` also ships camelCase, lower_case, and other convention variants — call its own `UseSnakeCaseNamingConvention()`/etc. directly if you want one of those without this package's migrations-history protection.
 
 ## Snake_case migrations history table
 
-If you've also opted into `UseSnakeCaseNamingConvention()` above and want the migrations-history table itself (`__ef_migrations_history`, `migration_id`, `product_version`) renamed to match:
+If you've opted into `UseSyntaxCircusSnakeCaseNamingConvention()` above and *do* want the migrations-history table itself (`__ef_migrations_history`, `migration_id`, `product_version`) renamed to match — note this requires a one-time manual column rename on any database that already has migrations applied under the old naming, since EF has to read that table to know which migrations are applied before it can run one that would rename it:
 
 ```csharp
 optionsBuilder.UseNpgsql(connectionString)
-    .UseSnakeCaseNamingConvention()
-    .ReplaceService<IHistoryRepository, SnakeCaseHistoryRepository>();
+    .UseSyntaxCircusSnakeCaseNamingConvention()
+    .ReplaceService<IHistoryRepository, SnakeCaseHistoryRepository>(); // registered after, so it wins
 ```
 
 ## Contributing
