@@ -4,7 +4,7 @@
 [![NuGet](https://img.shields.io/nuget/v/SyntaxCircus.EntityFrameworkCore.Postgres.svg)](https://www.nuget.org/packages/SyntaxCircus.EntityFrameworkCore.Postgres)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 
-An auditable-entity base with a `TimeProvider`-driven `SaveChanges` interceptor, a Postgres advisory-lock-guarded migrate-on-startup helper, and a snake_case migrations-history repository — for products on EF Core + Npgsql.
+An auditable-entity base with a `TimeProvider`-driven `SaveChanges` interceptor, a Postgres advisory-lock-guarded migrate-on-startup helper, snake_case entity/column naming, and a snake_case migrations-history repository — for products on EF Core + Npgsql.
 
 > **No support guaranteed.** Published as-is and maintained on a best-effort basis. Issues and PRs are welcome, but there's no SLA — fork it or vendor what you need if that's not enough.
 
@@ -32,9 +32,20 @@ await context.MigrateWithAdvisoryLockAsync(lockKey: 823_471); // any consistent 
 
 Takes a Postgres advisory lock before calling `Database.MigrateAsync()`, so multiple instances of the same service starting up concurrently don't race to apply migrations. Falls back to a plain, lock-free migrate for non-Postgres providers.
 
+## Snake_case entity and column naming
+
+This package depends on [`EFCore.NamingConventions`](https://github.com/efcore/EFCore.NamingConventions), so its `UseSnakeCaseNamingConvention()` is available with no separate install:
+
+```csharp
+optionsBuilder.UseNpgsql(connectionString)
+    .UseSnakeCaseNamingConvention(); // entity and column names become snake_case, e.g. CreatedAt -> created_at
+```
+
+`EFCore.NamingConventions` also ships camelCase, lower_case, and other convention variants — see its own docs for the full list.
+
 ## Snake_case migrations history table
 
-If you're using `EFCore.NamingConventions`' `UseSnakeCaseNamingConvention()` and want the migrations-history table itself (`__ef_migrations_history`, `migration_id`, `product_version`) in the same convention:
+If you've also opted into `UseSnakeCaseNamingConvention()` above and want the migrations-history table itself (`__ef_migrations_history`, `migration_id`, `product_version`) renamed to match:
 
 ```csharp
 optionsBuilder.UseNpgsql(connectionString)
