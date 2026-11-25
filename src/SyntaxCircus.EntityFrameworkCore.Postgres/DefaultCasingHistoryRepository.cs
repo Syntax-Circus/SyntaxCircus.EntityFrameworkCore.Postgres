@@ -14,7 +14,8 @@ namespace SyntaxCircus.EntityFrameworkCore.Postgres;
 /// An <see cref="IHistoryRepository"/> that keeps the migrations-history table and its columns in
 /// EF Core's own framework-default naming (<c>__EFMigrationsHistory</c> / <c>MigrationId</c> /
 /// <c>ProductVersion</c>), regardless of any naming convention (e.g. EFCore.NamingConventions'
-/// snake_case) registered on the same <see cref="DbContextOptionsBuilder"/>.
+/// snake_case) registered on the same <see cref="DbContextOptionsBuilder"/>. The primary key
+/// constraint name is not reset, so a naming convention still applies to it on a newly created table.
 ///
 /// Naming-convention plugins apply to every model built from the context's convention set,
 /// including the migrations-history model - so <c>UseSnakeCaseNamingConvention()</c> alone

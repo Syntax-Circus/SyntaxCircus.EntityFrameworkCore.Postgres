@@ -16,7 +16,11 @@ public static class SnakeCaseNamingConventionExtensions
     /// If you *do* want the migrations-history table renamed to match (<c>__ef_migrations_history</c>
     /// / <c>migration_id</c> / <c>product_version</c>), call
     /// <c>.ReplaceService&lt;IHistoryRepository, SnakeCaseHistoryRepository&gt;()</c> after this -
-    /// it's registered later, so it wins.
+    /// it's registered later, so it wins - and also set
+    /// <c>MigrationsHistoryTable("__ef_migrations_history")</c> in <c>UseNpgsql</c>. The repository
+    /// alone renames only the columns, not the table.
+    ///
+    /// The primary key constraint name of a newly created history table is still snake_cased.
     /// </summary>
     public static DbContextOptionsBuilder UseSyntaxCircusSnakeCaseNamingConvention(this DbContextOptionsBuilder optionsBuilder)
     {
