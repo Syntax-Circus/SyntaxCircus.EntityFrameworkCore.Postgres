@@ -14,7 +14,10 @@ namespace SyntaxCircus.EntityFrameworkCore.Postgres;
 /// snake_case (<c>__ef_migrations_history</c> / <c>migration_id</c> / <c>product_version</c>),
 /// matching the rest of the schema when using EFCore.NamingConventions' snake_case convention.
 /// Register with
-/// <c>optionsBuilder.ReplaceService&lt;IHistoryRepository, SnakeCaseHistoryRepository&gt;()</c>.
+/// <c>optionsBuilder.ReplaceService&lt;IHistoryRepository, SnakeCaseHistoryRepository&gt;()</c>
+/// <b>and</b> set <c>npgsql.MigrationsHistoryTable("__ef_migrations_history")</c> in
+/// <c>UseNpgsql</c>: without that second setting only the columns are renamed and the table stays
+/// <c>__EFMigrationsHistory</c>.
 /// </summary>
 public sealed class SnakeCaseHistoryRepository(HistoryRepositoryDependencies dependencies)
     : NpgsqlHistoryRepository(dependencies)
